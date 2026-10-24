@@ -117,7 +117,8 @@ static const void *kAWMSafeDispatchTimerSpecificKey = &kAWMSafeDispatchTimerSpec
     if (self.synchronizationQueue) {
         dispatch_queue_set_specific(self.synchronizationQueue, kAWMSafeDispatchTimerSpecificKey, NULL, NULL);
     }
-    [self cancel];
+    // 释放时直接清理，不能再异步提交捕获 self 的 block。
+    [self cancelLocked];
 }
 
 @end
